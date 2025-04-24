@@ -131,9 +131,23 @@ CALL rentals_by_client ("Paco", "Lopez");
 DELIMITER $$
 CREATE PROCEDURE client_rental(
 sp_nombre VARCHAR(45),
-sp_apellido VARCHAR(45)
+sp_apellido VARCHAR(45),
+sp_pelicula VARCHAR(128)
 )
 BEGIN
+	DECLARE idCliente INT; -- (customer_id)
+    DECLARE idPelicula INT; -- (film_id)
 
+	SELECT customer_id INTO idCliente FROM customer WHERE concat_ws(" ", first_name, last_name) = concat_ws(" ", sp_nombre, sp_apellido);
+    SELECT film_id INTO idPelicula FROM film WHERE title = sp_pelicula;
+    INSERT INTO rental (first_name, last_name, carnet_conducir, telefono, email)
+ 		VALUES (sp_nombre_cliente, sp_apellido_cliente, sp_carnet, sp_telefono, sp_email)
+	;
 END $$
 DELIMITER ;
+
+SELECT customer_id FROM customer WHERE concat_ws(" ", first_name, last_name) = "Deborah Walker";
+SELECT film_id FROM film WHERE title = "ALADDIN CALENDAR";
+DESCRIBE film;
+-- DROP PROCEDURE client_rental;
+-- call client_rental('Deborah', 'Walker', "ALADDIN CALENDAR" )
